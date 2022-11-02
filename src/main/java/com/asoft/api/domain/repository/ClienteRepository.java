@@ -18,5 +18,4 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 	//Por like, usando o containing
 	List<Cliente> findByNomeContaining(String nome);
 	
-	
 }
