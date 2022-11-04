@@ -11,8 +11,11 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import com.asoft.api.exception.DomainException;
 
 @ControllerAdvice //Tratar Exceções do controle Geral.
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
@@ -38,6 +41,19 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		
         //Metodo Original: handleExceptionInternal(ex, body, headers, status, request);
 		return handleExceptionInternal(ex, erroProblema, headers, status, request);
+	}
+	
+	@ExceptionHandler(DomainException.class)
+	public ResponseEntity<Object> handleDomainException (DomainException ex, WebRequest request){
+		
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		
+		ErroProblema erroProblema = new ErroProblema();
+		erroProblema.setStatus( status.value() );
+		erroProblema.setDataHora(LocalDateTime.now());
+		erroProblema.setTitulo( ex.getMessage() );
+		
+		return handleExceptionInternal(ex, erroProblema, new HttpHeaders(), status, request);
 	}
 	
 }

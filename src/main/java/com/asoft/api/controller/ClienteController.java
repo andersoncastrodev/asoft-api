@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.asoft.api.domain.model.Cliente;
 import com.asoft.api.domain.repository.ClienteRepository;
+import com.asoft.api.domain.service.ClienteService;
 
 @RestController
 @RequestMapping("/clientes")
@@ -28,6 +29,9 @@ public class ClienteController {
 	
 	@Autowired
 	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private ClienteService clienteService;
 	
 	
 	@GetMapping
@@ -82,7 +86,8 @@ public class ClienteController {
 	//Salvando Cliente via post.
 	@PostMapping
 	public Cliente adicionar(@Valid @RequestBody Cliente cliente) {
-		return clienteRepository.save(cliente);
+		//return clienteRepository.save(cliente);
+		return clienteService.salvar(cliente);
 	}
 	
 	//Update de cliente
@@ -97,8 +102,8 @@ public class ClienteController {
 		cliente.setId(clienteId);
 		
 		//Salvando
-		cliente = clienteRepository.save(cliente);
-		
+		//cliente = clienteRepository.save(cliente);
+		cliente = clienteService.salvar(cliente);
 		return ResponseEntity.ok(cliente); 
 	}
 	
@@ -110,7 +115,8 @@ public class ClienteController {
 			return ResponseEntity.notFound().build(); //Erro 404
 		}
 		
-		clienteRepository.deleteById(clienteId);
+		//clienteRepository.deleteById(clienteId);
+		clienteService.excluir(clienteId);
 		
 		return ResponseEntity.noContent().build();
 	}
