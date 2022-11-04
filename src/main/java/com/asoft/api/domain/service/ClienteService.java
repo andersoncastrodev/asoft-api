@@ -14,6 +14,7 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository clienteRepository;
 	
+	
 	@Transactional //Uso o transactional Caso de erro no processor ele  cancelar a operacao.
 	public Cliente salvar(Cliente cliente) {
 		
@@ -30,6 +31,13 @@ public class ClienteService {
 	@Transactional
 	public void excluir(Long clienteId) {
 		clienteRepository.deleteById(clienteId);
+	}
+	
+	//Busca de o Cliente e Existe. Senão Lança uma Exceção 
+	public Cliente buscarCliente(Long clienteId) {
+		Cliente cliente = clienteRepository.findById(clienteId)
+				.orElseThrow( ()-> new DomainException("Cliente Não Encontrado") );
+		return cliente;
 	}
 	
 }
