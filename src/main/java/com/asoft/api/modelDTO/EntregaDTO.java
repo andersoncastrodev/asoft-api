@@ -9,6 +9,9 @@ public class EntregaDTO {
 
 	private Long id;
 	private String nomeCliente;
+	
+	private ClienteDTO cliente;
+	
 	private DestinatarioDTO destinatario;
 	private BigDecimal taxa;
 	private StatusEntrega status;
@@ -59,6 +62,13 @@ public class EntregaDTO {
 		this.dataFinalizacao = dataFinalizacao;
 	}
 	
+	public ClienteDTO getCliente() {
+		return cliente;
+	}
+	public void setCliente(ClienteDTO cliente) {
+		this.cliente = cliente;
+	}
+
 	
 	
 }
